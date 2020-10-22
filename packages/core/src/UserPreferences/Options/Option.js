@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core";
 import styles from "./styles";
-import { HvButton, HvTypography } from "../..";
-import WithId from "../../withId";
+import { HvButton, HvTypography, useUniqueId } from "../..";
 import OptionsContext from "./OptionsContext";
 
-const Option = ({ classes, id, className, label, icon, onClick, ...others }) => {
+const Option = ({ classes, id: idProp, className, label, icon, onClick, ...others }) => {
+  const id = useUniqueId(idProp, "Option");
   const { selected, onSelection } = useContext(OptionsContext);
 
   const isSelected = id === selected;
@@ -82,4 +82,4 @@ Option.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default withStyles(styles, { name: "HvUserPreferencesOption" })(WithId(Option));
+export default withStyles(styles, { name: "HvUserPreferencesOption" })(Option);

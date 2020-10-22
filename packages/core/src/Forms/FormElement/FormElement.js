@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core";
-import withId from "../../withId";
+import useUniqueId from "../../utils";
 import { findDescriptors } from "./utils/FormUtils";
 import { HvFormElementContextProvider } from "./context/FormElementContext";
 import styles from "./styles";
@@ -12,7 +12,7 @@ import styles from "./styles";
  */
 const HvFormElement = (props) => {
   const {
-    id,
+    id: idProp,
     name,
     classes,
     className,
@@ -25,6 +25,7 @@ const HvFormElement = (props) => {
     locale = "en-US",
     ...others
   } = props;
+  const id = useUniqueId(idProp, "HvFormElement");
   const descriptors = findDescriptors(children, [
     "HvLabel",
     "HvSuggestions",
@@ -118,4 +119,4 @@ HvFormElement.propTypes = {
   locale: PropTypes.string,
 };
 
-export default withStyles(styles, { name: "HvFormElement" })(withId(HvFormElement));
+export default withStyles(styles, { name: "HvFormElement" })(HvFormElement);

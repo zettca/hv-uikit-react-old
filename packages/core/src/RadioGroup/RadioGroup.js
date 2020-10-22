@@ -43,7 +43,7 @@ const HvRadioGroup = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvradiogroup");
+  const elementId = useUniqueId(id, "HvRadioGroup");
 
   const [value, setValue] = useControlled(
     valueProp,

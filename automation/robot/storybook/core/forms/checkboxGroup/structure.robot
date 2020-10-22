@@ -5,7 +5,7 @@ Resource      _checkboxgroup.resource
 *** Test Cases ***
 checkbox group has id
     open checkbox group sample           main
-    Element Attribute Value Should Be    ${checkboxGroup}    id    hv-form-element-2
+    Element Attribute Value Should Be    ${checkboxGroup}    id    hv-form-element2
 
 children checkboxes have name attribute
     open checkbox group sample     main

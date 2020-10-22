@@ -9,9 +9,8 @@ import "react-table/react-table.css";
 import "react-table-hoc-fixed-columns/lib/styles.css";
 
 import { withStyles } from "@material-ui/core";
-import { HvBulkActions, HvPagination } from "..";
+import { HvBulkActions, HvPagination, useUniqueId } from "..";
 import { setId } from "../utils";
-import withId from "../withId";
 
 import DropDownMenu from "./DropdownMenu";
 import Header from "./Header";
@@ -43,7 +42,7 @@ const ReactTableCheckbox = withCheckbox(ReactTable);
  */
 const HvTable = (props) => {
   const {
-    id,
+    id: idProp,
     classes,
     className,
     uniqClassName,
@@ -81,7 +80,7 @@ const HvTable = (props) => {
     collapseOnDataChange = true,
     ...others
   } = props;
-
+  const id = useUniqueId(idProp, "HvTable");
   const [sorted, setSorted] = useState(defaultSorted);
   const [initiallyLoaded, setInitiallyLoaded] = useState(false);
   const [expanded, setExpanded] = useState({});
@@ -866,4 +865,4 @@ HvTable.propTypes = {
   collapseOnDataChange: PropTypes.bool,
 };
 
-export default withStyles(styles, { name: "HvTable" })(withId(HvTable));
+export default withStyles(styles, { name: "HvTable" })(HvTable);

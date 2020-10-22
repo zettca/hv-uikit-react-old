@@ -90,7 +90,7 @@ const HvTextArea = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvtextarea");
+  const elementId = useUniqueId(id, "HvTextArea");
 
   const inputRef = useRef(inputRefProp || null);
 

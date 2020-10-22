@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import map from "lodash/map";
 import isNil from "lodash/isNil";
 import { withStyles } from "@material-ui/core";
-import HvCheckbox from "../../../CheckBox";
+import { HvCheckBox, useUniqueId } from "../../..";
 import ActionsGeneric from "../../../ActionsGeneric";
 import Cell from "../ListViewCell";
-import { ListViewContextConsumer } from "../ListViewContext/ListViewContext";
+import ListViewContext from "../ListViewContext/ListViewContext";
 import styles from "./styles";
-import withId from "../../../withId";
 import setActionsId from "../../setActionsId";
 import Focus from "../../../Focus";
 
@@ -24,7 +23,7 @@ const selectCell = (classes, onCheckboxSelected, checkboxProps, checked, semanti
       id={`checkbox-cell-${id}`}
       key={`checkbox${id}`}
     >
-      <HvCheckbox
+      <HvCheckBox
         className={classes.checkboxPlacement}
         onChange={onCheckboxSelected}
         checked={checked}
@@ -118,55 +117,37 @@ const row = (
   );
 };
 
-const ListViewRow = ({
-  id,
-  viewConfiguration,
-  classes,
-  className,
-  children,
-  isSelectable,
-  onSelection,
-  checkboxProps,
-  checked,
-  semantic,
-  ...others
-}) => {
-  return (
-    <ListViewContextConsumer>
-      {(contextConfiguration) => {
-        const { containerRef } = contextConfiguration;
-        if (contextConfiguration && isNil(viewConfiguration)) {
-          return row(
-            contextConfiguration,
-            classes,
-            className,
-            children,
-            id,
-            isSelectable,
-            onSelection,
-            checkboxProps,
-            checked,
-            semantic,
-            containerRef,
-            others
-          );
-        }
-        return row(
-          viewConfiguration,
-          classes,
-          className,
-          children,
-          id,
-          isSelectable,
-          onSelection,
-          checkboxProps,
-          checked,
-          semantic,
-          containerRef,
-          others
-        );
-      }}
-    </ListViewContextConsumer>
+const ListViewRow = (props) => {
+  const {
+    id: idProp,
+    viewConfiguration,
+    classes,
+    className,
+    children,
+    isSelectable,
+    onSelection,
+    checkboxProps,
+    checked,
+    semantic,
+    ...others
+  } = props;
+  const id = useUniqueId(idProp, "HvListViewRow");
+  const context = useContext(ListViewContext);
+  const { containerRef } = context;
+
+  return row(
+    context && isNil(viewConfiguration) ? context : viewConfiguration,
+    classes,
+    className,
+    children,
+    id,
+    isSelectable,
+    onSelection,
+    checkboxProps,
+    checked,
+    semantic,
+    containerRef,
+    others
   );
 };
 
@@ -246,4 +227,4 @@ ListViewRow.propTypes = {
   ]),
 };
 
-export default withStyles(styles, { name: "HvListViewRow" })(withId(ListViewRow));
+export default withStyles(styles, { name: "HvListViewRow" })(ListViewRow);

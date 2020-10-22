@@ -37,7 +37,7 @@ const HvBaseDropdown = ({
   const anchorHeaderRef = useRef(null);
   const containerRef = useRef(null);
 
-  const elementId = useUniqueId(id, "hvbasedropdown");
+  const elementId = useUniqueId(id, "HvBaseDropdown");
 
   const theme = useTheme();
 

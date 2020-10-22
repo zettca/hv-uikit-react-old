@@ -71,12 +71,7 @@ export { default as HvVerticalNavigation } from "./VerticalNavigation";
 export { default as HvPanel } from "./Panel";
 
 // HOCs
-export { default as withId } from "./withId";
 export { default as withTooltip } from "./withTooltip";
-
-// Hooks
-export { default as useWidth } from "./utils/useWidth";
-export { default as useUniqueId } from "./useUniqueId";
 
 // theme
 export { default as hvTheme } from "./theme";

@@ -118,7 +118,7 @@ const HvInput = (props) => {
   } = props;
 
   const labels = useLabels(DEFAULT_LABELS, labelsProp);
-  const elementId = useUniqueId(id, "hvinput");
+  const elementId = useUniqueId(id, "HvInput");
 
   const inputRef = useRef(inputRefProp || null);
 

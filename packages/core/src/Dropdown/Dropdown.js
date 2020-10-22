@@ -42,7 +42,7 @@ const HvDropdown = ({
   popperProps = {},
 }) => {
   const labels = useLabels(DEFAULT_LABELS, labelsProp);
-  const elementId = useUniqueId(id, "hvdropdown");
+  const elementId = useUniqueId(id, "HvDropdown");
 
   const [isOpen, setIsOpen] = useState(expanded);
   const [selectionLabel, setSelectionLabel] = useState(

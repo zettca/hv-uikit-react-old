@@ -49,7 +49,7 @@ const HvSwitch = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvswitch");
+  const elementId = useUniqueId(id, "HvSwitch");
 
   const [isChecked, setIsChecked] = useControlled(checked, Boolean(defaultChecked));
 

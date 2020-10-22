@@ -4,15 +4,14 @@ import clsx from "clsx";
 import { withStyles } from "@material-ui/core";
 import MoreVert from "@hv/uikit-react-icons/dist/MoreOptionsVertical";
 import { getPrevNextFocus, isKeypress, KeyboardCodes } from "../utils";
-import { HvButton, HvList, HvPanel, HvBaseDropdown, setId } from "..";
+import { HvButton, HvList, HvPanel, HvBaseDropdown, setId, useUniqueId } from "..";
 import styles from "./styles";
-import withId from "../withId";
 
 /**
  * A drop-down menu is a graphical control element, similar to a list box, that allows the user to choose one value from a list.
  */
 const DropDownMenu = ({
-  id,
+  id: idProp,
   classes,
   className,
   icon,
@@ -28,6 +27,7 @@ const DropDownMenu = ({
   category,
   ...others
 }) => {
+  const id = useUniqueId(idProp, "DropDownMenu");
   const [open, setOpen] = useState(expanded && !disabled);
   const focusNodes = getPrevNextFocus(setId(id, "icon-button"));
 
@@ -186,4 +186,4 @@ DropDownMenu.propTypes = {
   expanded: PropTypes.bool,
 };
 
-export default withStyles(styles, { name: "HvDropDownMenu" })(withId(DropDownMenu));
+export default withStyles(styles, { name: "HvDropDownMenu" })(DropDownMenu);

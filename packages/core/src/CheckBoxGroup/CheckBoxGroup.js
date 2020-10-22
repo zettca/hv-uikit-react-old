@@ -57,7 +57,7 @@ const HvCheckBoxGroup = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvcheckboxgroup");
+  const elementId = useUniqueId(id, "HvCheckBoxGroup");
 
   const [value, setValue] = useControlled(
     valueProp,

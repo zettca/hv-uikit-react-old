@@ -12,9 +12,9 @@ import {
   HvLabel,
   HvFormElement,
   HvTypography,
+  useUniqueId,
 } from "..";
 import styles from "./styles";
-import withId from "../withId";
 import { DEFAULT_LOCALE, isDate } from "../Calendar/utils";
 import { getDateLabel, isVisibleDate, validateLocale } from "./utils";
 import useVisibleDate from "../Calendar/useVisibleDate";
@@ -32,7 +32,7 @@ const DEFAULT_LABELS = {
  * A graphical widget which allows the user to select a date.
  */
 const HvDatePicker = ({
-  id,
+  id: idProp,
   className,
   labels: labelsProp,
   classes,
@@ -50,6 +50,7 @@ const HvDatePicker = ({
   escapeWithReference = true,
   ...others
 }) => {
+  const id = useUniqueId(idProp, "HvDatePicker");
   const labels = useLabels(DEFAULT_LABELS, labelsProp);
   const [locale, setLocale] = useState(validateLocale(localeProp));
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -314,4 +315,4 @@ HvDatePicker.propTypes = {
   startAdornment: PropTypes.node,
 };
 
-export default withStyles(styles, { name: "HvDatePicker", index: 1 })(withId(HvDatePicker));
+export default withStyles(styles, { name: "HvDatePicker", index: 1 })(HvDatePicker);

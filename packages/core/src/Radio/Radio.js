@@ -55,7 +55,7 @@ const HvRadio = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvradio");
+  const elementId = useUniqueId(id, "HvRadio");
 
   const [focusVisible, setFocusVisible] = useState(false);
 

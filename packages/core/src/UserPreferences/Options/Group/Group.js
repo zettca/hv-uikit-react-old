@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core";
-import Typography from "../../../Typography";
-import withId from "../../../withId";
+import { HvTypography, useUniqueId } from "../../..";
 import { setId } from "../../../utils";
 import styles from "./styles";
 
-const Group = ({ id, className, classes, label, children, labelProps, ...others }) => {
+const Group = ({ id: idProp, className, classes, label, children, labelProps, ...others }) => {
+  const id = useUniqueId(idProp, "Group");
   const labelId = setId(id, "grouplabel");
 
   return (
@@ -18,7 +18,7 @@ const Group = ({ id, className, classes, label, children, labelProps, ...others 
       {...others}
     >
       {label && (
-        <Typography
+        <HvTypography
           component="div"
           id={labelId}
           variant="highlightText"
@@ -26,7 +26,7 @@ const Group = ({ id, className, classes, label, children, labelProps, ...others 
           {...labelProps}
         >
           {label}
-        </Typography>
+        </HvTypography>
       )}
       <ul className={classes.ul}>{children}</ul>
     </nav>
@@ -73,4 +73,4 @@ Group.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default withStyles(styles, { name: "HvUserPreferencesGroup" })(withId(Group));
+export default withStyles(styles, { name: "HvUserPreferencesGroup" })(Group);

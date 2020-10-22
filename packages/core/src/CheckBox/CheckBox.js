@@ -58,7 +58,7 @@ const HvCheckBox = (props) => {
     ...others
   } = props;
 
-  const elementId = useUniqueId(id, "hvcheckbox");
+  const elementId = useUniqueId(id, "HvCheckBox");
 
   const [focusVisible, setFocusVisible] = useState(false);
 
