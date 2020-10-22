@@ -364,7 +364,7 @@ exports[`BaseDropDown opens on click 1`] = `
     <div
       aria-expanded={true}
       aria-label="Main sample"
-      aria-owns="hvbasedropdown2-children-container"
+      aria-owns="hv-base-dropdown2-children-container"
       className="HvBaseDropdown-root"
       onClick={[Function]}
       onKeyDown={[Function]}
@@ -372,7 +372,7 @@ exports[`BaseDropDown opens on click 1`] = `
       tabIndex={-1}
     >
       <div
-        aria-controls="hvbasedropdown2-children-container"
+        aria-controls="hv-base-dropdown2-children-container"
         aria-label="Main sample"
         className="HvBaseDropdown-header HvBaseDropdown-headerOpen HvBaseDropdown-headerOpenDown"
         role="textbox"
@@ -461,13 +461,13 @@ exports[`BaseDropDown opens on click 1`] = `
         <div
           aria-expanded="true"
           aria-label="Main sample"
-          aria-owns="hvbasedropdown2-children-container"
+          aria-owns="hv-base-dropdown2-children-container"
           class="HvBaseDropdown-root"
           role="combobox"
           tabindex="-1"
         >
           <div
-            aria-controls="hvbasedropdown2-children-container"
+            aria-controls="hv-base-dropdown2-children-container"
             aria-label="Main sample"
             class="HvBaseDropdown-header HvBaseDropdown-headerOpen HvBaseDropdown-headerOpenDown"
             role="textbox"
@@ -537,7 +537,7 @@ exports[`BaseDropDown opens on click 1`] = `
                   />
                   <div
                     class="HvBaseDropdown-panel"
-                    id="hvbasedropdown2-children-container"
+                    id="hv-base-dropdown2-children-container"
                   />
                 </div>
               </div>
@@ -574,7 +574,7 @@ exports[`BaseDropDown opens on click 1`] = `
                 />
                 <div
                   className="HvBaseDropdown-panel"
-                  id="hvbasedropdown2-children-container"
+                  id="hv-base-dropdown2-children-container"
                 />
               </div>
             </ClickAwayListener>
