@@ -2,10 +2,10 @@ import clsx from "clsx";
 import isNil from "lodash/isNil";
 import PropTypes from "prop-types";
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import ReactTable, { ReactTableDefaults } from "react-table";
+import ReactTable, { ReactTableDefaults } from "react-table-6";
 import withFixedColumns from "react-table-hoc-fixed-columns";
 
-import "react-table/react-table.css";
+import "react-table-6/react-table.css";
 import "react-table-hoc-fixed-columns/lib/styles.css";
 
 import { withStyles } from "@material-ui/core";

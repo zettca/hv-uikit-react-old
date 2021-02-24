@@ -2,7 +2,7 @@
 
 import React from "react";
 import { mount } from "enzyme";
-import ReactTable from "react-table";
+import ReactTable from "react-table-6";
 import { HvDropDownMenu, HvPagination, HvProvider, HvTable } from "../..";
 import Select from "../../Pagination/Select";
 import NoData from "../NoData";

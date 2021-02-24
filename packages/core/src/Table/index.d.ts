@@ -1,2 +1,3 @@
-export { default } from "./Table";
-export * from "./Table";
+export * from "../TableNew";
+
+export * from "../TableOld";
