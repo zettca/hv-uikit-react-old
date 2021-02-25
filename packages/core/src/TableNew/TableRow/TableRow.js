@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 
 import { TableRow, withStyles } from "@material-ui/core";
@@ -6,17 +6,17 @@ import { TableRow, withStyles } from "@material-ui/core";
 import styles from "./styles";
 
 /**
- * TableRow description/documentation paragraph
+ * `HvTableRow` acts as a `tr` element and inherits styles from its context
  */
-const HvTableRow = (props) => {
+const HvTableRow = forwardRef((props, ref) => {
   const { className, classes, children, ...others } = props;
 
   return (
-    <TableRow classes={classes} className={className} {...others}>
+    <TableRow ref={ref} classes={classes} className={className} {...others}>
       {children}
     </TableRow>
   );
-};
+});
 
 HvTableRow.propTypes = {
   /**

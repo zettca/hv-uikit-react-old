@@ -7,7 +7,11 @@ import { Table, withStyles } from "@material-ui/core";
 import styles from "./styles";
 
 /**
- * Table description/documentation paragraph
+ * A Table gathers relational data, it displays values arranged to allow quick numerical analysis
+ * like comparison and sorting.
+ *
+ * HvTable component offers a set of HTML-equivalent elements, styled to Design System's specification,
+ * for building tables.
  */
 const HvTable = (props) => {
   const { className, classes, children, ...others } = props;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -7,9 +7,9 @@ import { getSortComponent } from "./utils";
 import styles from "./styles";
 
 /**
- * TableCell description/documentation paragraph
+ * `HvTableCell` acts as a `td` element and inherits styles from its context
  */
-const HvTableCell = (props) => {
+const HvTableCell = forwardRef((props, ref) => {
   const {
     className,
     classes,
@@ -31,6 +31,7 @@ const HvTableCell = (props) => {
 
   return (
     <TableCell
+      ref={ref}
       classes={{
         root: classes.root,
         head: classes.head,
@@ -50,7 +51,7 @@ const HvTableCell = (props) => {
       {children}
     </TableCell>
   );
-};
+});
 
 HvTableCell.propTypes = {
   /**

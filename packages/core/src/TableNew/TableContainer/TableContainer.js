@@ -7,7 +7,7 @@ import { TableContainer, withStyles } from "@material-ui/core";
 import styles from "./styles";
 
 /**
- * TableContainer description/documentation paragraph
+ * HvTableContainer is a container for the HvTable
  */
 const HvTableContainer = (props) => {
   const { className, classes, children, ...others } = props;

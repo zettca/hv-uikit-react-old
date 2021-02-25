@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -7,17 +7,18 @@ import { TableHead, withStyles } from "@material-ui/core";
 import styles from "./styles";
 
 /**
- * TableHead description/documentation paragraph
+ * HvTableHead acts as a `thead` element.
+ * `HvTableCell` and `HvTableRow` elements in it inherit header-specific styles
  */
-const HvTableHead = (props) => {
+const HvTableHead = forwardRef((props, ref) => {
   const { className, classes, children, ...others } = props;
 
   return (
-    <TableHead className={clsx(className, classes.root)} {...others}>
+    <TableHead ref={ref} className={clsx(className, classes.root)} {...others}>
       {children}
     </TableHead>
   );
-};
+});
 
 HvTableHead.propTypes = {
   /**
