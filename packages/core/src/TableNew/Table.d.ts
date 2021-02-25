@@ -1,7 +1,7 @@
 import { TableProps, StandardProps } from "@material-ui/core";
 
-export type HvTableNewClassKey = "root";
+export type HvTableClassKey = "root";
 
-export type HvTableNewProps = StandardProps<TableProps, HvTableNewClassKey>;
+export type HvTableProps = StandardProps<TableProps, HvTableClassKey>;
 
-export default function HvTable(props: HvTableNewProps): JSX.Element | null;
+export default function HvTable(props: HvTableProps): JSX.Element | null;

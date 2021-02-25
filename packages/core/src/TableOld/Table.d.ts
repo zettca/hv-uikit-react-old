@@ -67,7 +67,7 @@ export interface SecondaryAction extends ListValueProp {
   action?: (event: React.FormEvent<HTMLDivElement>, row: object) => void;
 }
 
-export type HvTableClassKey =
+export type HvTableOldClassKey =
   | "root"
   | "table"
   | "theadGroup"
@@ -117,8 +117,8 @@ export type HvTableClassKey =
   | "separatorContainer"
   | "bulkActions";
 
-export interface HvTableProps
-  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, HvTableClassKey>,
+export interface HvTableOldProps
+  extends StandardProps<React.HTMLAttributes<HTMLDivElement>, HvTableOldClassKey>,
     HvActionsGenericCommonProps {
   /**
    * Unique class name used to identify the fixed table
@@ -172,8 +172,8 @@ export interface HvTableProps
    */
   paginationServerSide?: boolean;
 
-  /** 
-   * Attributes applied to the pagination component 
+  /**
+   * Attributes applied to the pagination component
    */
   paginationProps?: HvPaginationProps;
 
@@ -269,4 +269,4 @@ export interface HvTableProps
   collapseOnDataChange?: boolean;
 }
 
-export default function HvTable(props: HvTableProps): JSX.Element | null;
+export default function HvTable(props: HvTableOldProps): JSX.Element | null;

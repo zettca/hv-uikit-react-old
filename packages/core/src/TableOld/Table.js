@@ -48,7 +48,7 @@ const ReactTableCheckbox = withCheckbox(ReactTable);
  * Only one of these properties should be set (or none), as it isn't possible to have a table with
  * an expander and checkbox simultaneously.
  */
-const HvTable = (props) => {
+const HvTableOld = (props) => {
   const {
     id,
     classes,
@@ -592,7 +592,7 @@ const HvTable = (props) => {
   );
 };
 
-HvTable.propTypes = {
+HvTableOld.propTypes = {
   /**
    * Class names to be applied.
    */
@@ -907,4 +907,4 @@ HvTable.propTypes = {
   collapseOnDataChange: PropTypes.bool,
 };
 
-export default withStyles(styles, { name: "HvTable" })(withId(HvTable));
+export default withStyles(styles, { name: "HvTableOld" })(withId(HvTableOld));
