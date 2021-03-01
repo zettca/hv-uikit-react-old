@@ -1,5 +1,8 @@
 const styles = () => ({
-  root: {},
+  root: {
+    width: "100%",
+    overflowX: "auto",
+  },
 });
 
 export default styles;

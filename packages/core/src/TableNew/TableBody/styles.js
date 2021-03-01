@@ -1,5 +1,7 @@
 const styles = () => ({
-  root: {},
+  root: {
+    display: "table-row-group",
+  },
 });
 
 export default styles;

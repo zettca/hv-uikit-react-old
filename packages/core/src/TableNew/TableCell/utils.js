@@ -1,7 +1,6 @@
 import { SortXS, SortAscendingXS, SortDescendingXS } from "@hv/uikit-react-icons";
 
-// eslint-disable-next-line import/prefer-default-export
-export const getSortComponent = (dir) => {
+export const getSortIcon = (dir) => {
   switch (dir) {
     case "asc":
       return SortAscendingXS;
@@ -9,5 +8,16 @@ export const getSortComponent = (dir) => {
       return SortDescendingXS;
     default:
       return SortXS;
+  }
+};
+
+export const getSortDir = (sortDirection) => {
+  switch (sortDirection) {
+    case "asc":
+      return "ascending";
+    case "desc":
+      return "descending";
+    default:
+      return null;
   }
 };

@@ -1,23 +1,19 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { TableContainer, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 
 import styles from "./styles";
 
 /**
  * HvTableContainer is a container for the HvTable
  */
-const HvTableContainer = (props) => {
-  const { className, classes, children, ...others } = props;
+const HvTableContainer = forwardRef(function HvTableContainer(props, ref) {
+  const { classes, className, ...others } = props;
 
-  return (
-    <TableContainer className={clsx(className, classes.root)} {...others}>
-      {children}
-    </TableContainer>
-  );
-};
+  return <div ref={ref} className={clsx(classes.root, className)} {...others} />;
+});
 
 HvTableContainer.propTypes = {
   /**
@@ -25,9 +21,9 @@ HvTableContainer.propTypes = {
    */
   className: PropTypes.string,
   /**
-   * Content to be rendered
+   * Content to be rendered. Usually `<HvTable>`
    */
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   /**
    * A Jss Object used to override or extend the styles applied.
    */

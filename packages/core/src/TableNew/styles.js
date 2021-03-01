@@ -1,9 +1,18 @@
 const styles = (theme) => ({
   root: {
+    display: "table",
+    width: "100%",
+    borderCollapse: "collapse",
+    borderSpacing: 0,
+
     ...theme.hv.typography.normalText,
-    fontFamily: theme.hv.typography.fontFamily,
-    textAlign: "right",
-    border: "none",
+
+    "& caption": {
+      ...theme.typography.normalText,
+      padding: theme.spacing("xs"),
+      textAlign: "left",
+      captionSide: "bottom",
+    },
   },
 });
 

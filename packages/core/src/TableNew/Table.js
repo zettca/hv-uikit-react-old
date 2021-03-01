@@ -1,8 +1,8 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { Table, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 
 import styles from "./styles";
 
@@ -13,15 +13,11 @@ import styles from "./styles";
  * HvTable component offers a set of HTML-equivalent elements, styled to Design System's specification,
  * for building tables.
  */
-const HvTable = (props) => {
-  const { className, classes, children, ...others } = props;
+const HvTable = forwardRef(function HvTable(props, ref) {
+  const { classes, className, ...others } = props;
 
-  return (
-    <Table size="small" className={clsx(className, classes.root)} {...others}>
-      {children}
-    </Table>
-  );
-};
+  return <table ref={ref} className={clsx(classes.root, className)} {...others} />;
+});
 
 HvTable.propTypes = {
   /**

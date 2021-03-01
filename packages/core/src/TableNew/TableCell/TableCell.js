@@ -1,55 +1,58 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import capitalize from "lodash/capitalize";
 
-import { TableCell, withStyles } from "@material-ui/core";
-import { getSortComponent } from "./utils";
+import { withStyles } from "@material-ui/core";
+import { getSortIcon, getSortDir } from "./utils";
 import styles from "./styles";
+import TableContext from "../TableContext";
 
 /**
  * `HvTableCell` acts as a `td` element and inherits styles from its context
  */
-const HvTableCell = forwardRef((props, ref) => {
+const HvTableCell = forwardRef(function HvTableCell(props, ref) {
   const {
-    className,
+    align = "inherit",
     classes,
-    children,
-    variant,
-    sortable,
-    sorted,
+    className,
+    component,
+    padding: paddingProp,
     sortDirection,
-    sticky,
+    variant: variantProp,
+
+    sorted,
+    sortable,
+    children,
+
     ...others
   } = props;
 
-  const renderSort = () => {
-    if (variant !== "head" || !sortable) return null;
+  const tableContext = useContext(TableContext);
 
-    const SortComponent = getSortComponent(sortDirection);
-    return <SortComponent style={{ display: "inline-flex" }} />;
-  };
+  const isHeadCell = tableContext?.variant === "head";
+  const Component = component || (isHeadCell && "th") || "td";
+
+  const padding = paddingProp || (tableContext?.padding ?? "default");
+  const variant = variantProp || tableContext?.variant;
+
+  const Sort = useMemo(() => getSortIcon(sortDirection), [sortDirection]);
 
   return (
-    <TableCell
+    <Component
       ref={ref}
-      classes={{
-        root: classes.root,
-        head: classes.head,
-        body: classes.body,
-        footer: classes.footer,
-      }}
-      sortDirection={sortDirection}
-      className={clsx(className, {
-        [classes.sticky]: sticky,
+      className={clsx(className, classes.root, classes[variant], {
         [classes.sortable]: sortable,
         [classes.sorted]: sorted,
+        [classes[`align${capitalize(align)}`]]: align !== "inherit",
+        [classes[`padding${capitalize(padding)}`]]: padding !== "default",
       })}
-      variant={variant}
+      aria-sort={getSortDir(sortDirection)}
       {...others}
     >
-      {renderSort()}
+      {variant === "head" && sortable && <Sort className={classes.sortIcon} />}
       {children}
-    </TableCell>
+    </Component>
   );
 });
 
@@ -63,17 +66,27 @@ HvTableCell.propTypes = {
    */
   children: PropTypes.node,
   /**
-   * Whether or not the cell is sticky
-   */
-  sticky: PropTypes.bool,
-  /**
    * Whether or not the cell is sorted
    */
   sorted: PropTypes.bool,
   /**
+   * The component used for the root node. Either a string to use a HTML element or a component.
+   * Defaults to td in tbody or th in thead
+   */
+  component: PropTypes.elementType,
+  /**
    * Whether or not the cell is sortable
    */
   sortable: PropTypes.bool,
+  /**
+   * Set the text-align on the table cell content.
+   */
+  align: PropTypes.oneOf(["center", "inherit", "justify", "left", "right"]),
+  /**
+   * Sets the padding applied to the cell.
+   * By default, the Table parent component set the value, which is the default padding specified by Design System.
+   */
+  padding: PropTypes.oneOf(["checkbox", "default", "none"]),
   /**
    * Specify the cell type.
    * The prop defaults to the value inherited from the parent TableHead, TableBody, or TableFooter components.
@@ -104,10 +117,6 @@ HvTableCell.propTypes = {
      */
     footer: PropTypes.string,
     /**
-     * Styles applied to the component root when it is sticky.
-     */
-    sticky: PropTypes.string,
-    /**
      * Styles applied to the component root when it is sorted.
      */
     sorted: PropTypes.string,
@@ -115,6 +124,10 @@ HvTableCell.propTypes = {
      * Styles applied to the component root when it is sortable.
      */
     sortable: PropTypes.string,
+    /**
+     * Styles applied to the sort icon component.
+     */
+    sortIcon: PropTypes.string,
   }).isRequired,
 };
 

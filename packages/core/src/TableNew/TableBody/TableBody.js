@@ -2,21 +2,27 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { TableBody, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 
+import TableContext from "../TableContext";
 import styles from "./styles";
+
+const tableContext = {
+  variant: "body",
+  padding: "default",
+};
 
 /**
  * HvTableBody acts as a `tbody` element.
  * `HvTableCell` and `HvTableRow` elements in it inherit body-specific styles
  */
-const HvTableBody = forwardRef((props, ref) => {
-  const { className, classes, children, ...others } = props;
+const HvTableBody = forwardRef(function HvTableBody(props, ref) {
+  const { classes, className, ...others } = props;
 
   return (
-    <TableBody ref={ref} className={clsx(className, classes.root)} {...others}>
-      {children}
-    </TableBody>
+    <TableContext.Provider value={tableContext}>
+      <tbody className={clsx(classes.root, className)} ref={ref} {...others} />
+    </TableContext.Provider>
   );
 });
 
