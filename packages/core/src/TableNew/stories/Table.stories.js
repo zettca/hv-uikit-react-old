@@ -1,15 +1,17 @@
 import React, { useMemo, useState } from "react";
 import range from "lodash/range";
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, useRowSelect, usePagination, useExpanded } from "react-table";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { Edit, Duplicate, Drag, Fail } from "@hv/uikit-react-icons";
+import { Edit, Duplicate, Drag, Fail, DropDownXS, DropRightXS } from "@hv/uikit-react-icons";
 
 import {
+  HvBulkActions,
   HvButton,
   HvCheckBox,
   HvDropDownMenu,
   HvEmptyState,
+  HvPagination,
   HvTable,
   HvTableBody,
   HvTableCell,
@@ -53,13 +55,13 @@ const makeData = (len = 8) => Array.from(Array(len), newEntry);
 
 // https://react-table.tanstack.com/docs/api/useTable#column-options
 const getColumns = () => [
-  { Header: "Title", accessor: "name" },
-  { Header: "Time", accessor: "createdDate" },
-  { Header: "Event Type", accessor: "eventType", sortable: false },
-  { Header: "Status", accessor: "status" },
-  { Header: "Probability", accessor: "riskScore" },
-  { Header: "Severity", accessor: "severity" },
-  { Header: "Priority", accessor: "priority" },
+  { Header: "Title", accessor: "name", isSortable: true },
+  { Header: "Time", accessor: "createdDate", isSortable: true },
+  { Header: "Event Type", accessor: "eventType" },
+  { Header: "Status", accessor: "status", isSortable: true },
+  { Header: "Probability", accessor: "riskScore", isSortable: true },
+  { Header: "Severity", accessor: "severity", isSortable: true },
+  { Header: "Priority", accessor: "priority", isSortable: true },
 ];
 
 const useToggleIndex = (initialState) => {
@@ -78,9 +80,7 @@ export const Main = () => (
       <HvTableHead>
         <HvTableRow>
           {getColumns().map((el) => (
-            <HvTableCell key={el.Header} variant="head">
-              {el.Header}
-            </HvTableCell>
+            <HvTableCell key={el.Header}>{el.Header}</HvTableCell>
           ))}
         </HvTableRow>
       </HvTableHead>
@@ -121,9 +121,7 @@ export const Empty = () => {
         <HvTableHead>
           <HvTableRow>
             {getColumns().map((el) => (
-              <HvTableCell key={el.Header} variant="head">
-                {el.Header}
-              </HvTableCell>
+              <HvTableCell key={el.Header}>{el.Header}</HvTableCell>
             ))}
           </HvTableRow>
         </HvTableHead>
@@ -141,7 +139,7 @@ Main.parameters = {
   },
 };
 
-export const SelectableWithActions = () => {
+export const Selectable = () => {
   const [checkedIdx, toggleChecked] = useToggleIndex(0);
   const [data] = useState(makeData(6));
   const actions = useMemo(() => range(3).map((i) => ({ label: `Option ${i + 1}` })), []);
@@ -151,13 +149,11 @@ export const SelectableWithActions = () => {
       <HvTable>
         <HvTableHead>
           <HvTableRow>
-            <HvTableCell />
+            <HvTableCell padding="checkbox" />
             {getColumns().map((el) => (
-              <HvTableCell key={el.Header} variant="head">
-                {el.Header}
-              </HvTableCell>
+              <HvTableCell key={el.Header}>{el.Header}</HvTableCell>
             ))}
-            <HvTableCell />
+            <HvTableCell padding="none" />
           </HvTableRow>
         </HvTableHead>
         <HvTableBody>
@@ -173,7 +169,7 @@ export const SelectableWithActions = () => {
               <HvTableCell>{el.riskScore}</HvTableCell>
               <HvTableCell>{el.severity}</HvTableCell>
               <HvTableCell>{el.priority}</HvTableCell>
-              <HvTableCell padding="checkbox">
+              <HvTableCell padding="none">
                 <HvDropDownMenu keepOpened={false} placement="left" dataList={actions} />
               </HvTableCell>
             </HvTableRow>
@@ -184,56 +180,143 @@ export const SelectableWithActions = () => {
   );
 };
 
-export const Sortable = () => {
-  const sampleData = useMemo(() => makeData(12), []);
+export const ReactTable = () => {
+  const sampleData = useMemo(() => makeData(64), []);
+  const sampleColumns = useMemo(
+    () => [
+      {
+        id: "expander",
+        padding: "checkbox",
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <HvCheckBox {...getToggleAllRowsSelectedProps()} />
+        ),
+        Cell: ({ row }) => <HvCheckBox {...row.getToggleRowSelectedProps()} />,
+      },
+      {
+        id: "selection",
+        padding: "checkbox",
+        Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
+          <span {...getToggleAllRowsExpandedProps()}>
+            {isAllRowsExpanded ? <DropDownXS /> : <DropRightXS />}
+          </span>
+        ),
+        Cell: ({ row }) => (
+          <span {...row.getToggleRowExpandedProps()}>
+            {row.isExpanded ? <DropDownXS /> : <DropRightXS />}
+          </span>
+        ),
+      },
+      ...getColumns(),
+    ],
+    []
+  );
 
-  const SortableTable = ({ columns, data }) => {
-    const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable(
+  const ExpandableRow = ({ row }) => (
+    <React.Fragment key={row.id}>
+      <HvTableRow hover selected={row.isSelected} {...row.getRowProps()}>
+        {row.cells.map((cell) => (
+          <HvTableCell
+            col={cell.column}
+            padding={cell.column.padding}
+            sortable={cell.column.isSortable}
+            sorted={cell.column.isSorted}
+            {...cell.getCellProps()}
+          >
+            {cell.render("Cell")}
+          </HvTableCell>
+        ))}
+      </HvTableRow>
+      <HvTableRow style={{ display: row.isExpanded ? null : "none" }}>
+        <HvTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={20}>
+          <code>{JSON.stringify(row.values, null, 2)}</code>
+        </HvTableCell>
+      </HvTableRow>
+    </React.Fragment>
+  );
+
+  const Table = ({ data, columns }) => {
+    const instance = useTable(
       { columns, data },
-      useSortBy
+      useSortBy,
+      useExpanded,
+      usePagination,
+      useRowSelect
     );
 
-    return (
-      <HvTableContainer>
-        <HvTable {...getTableProps()}>
-          <HvTableHead>
-            <HvTableRow>
-              {headers.map((col) => (
-                <HvTableCell
-                  padding="none"
-                  key={col.Header}
-                  align={col.align}
-                  variant="head"
-                  sortable
-                  sortDirection={col.isSorted && (col.isSortedDesc ? "desc" : "asc")}
-                  {...col.getHeaderProps(col.getSortByToggleProps())}
-                >
-                  {col.render("Header")}
-                </HvTableCell>
-              ))}
-            </HvTableRow>
-          </HvTableHead>
-          <HvTableBody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
+    const {
+      getTableProps,
+      getTableBodyProps,
+      toggleAllRowsSelected,
+      toggleAllPageRowsSelected,
+      headers,
+      rows,
+      page,
+      prepareRow,
+      canPreviousPage,
+      canNextPage,
+      pageOptions,
+      gotoPage,
+      setPageSize,
+      selectedFlatRows,
+      state: { pageSize, pageIndex },
+    } = instance;
 
-              return (
-                <HvTableRow key={row.id} hover {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <HvTableCell sortable sorted={cell.column.isSorted} {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </HvTableCell>
-                  ))}
-                </HvTableRow>
-              );
-            })}
-          </HvTableBody>
-        </HvTable>
-      </HvTableContainer>
+    return (
+      <div>
+        <HvBulkActions
+          numTotal={rows.length}
+          numSelected={selectedFlatRows.length}
+          showSelectAllPages
+          onSelectAll={toggleAllPageRowsSelected}
+          onSelectAllPages={toggleAllRowsSelected}
+        />
+        <br />
+        <HvTableContainer>
+          <HvTable {...getTableProps()}>
+            <HvTableHead>
+              <HvTableRow>
+                {headers.map((col) => (
+                  <HvTableCell
+                    key={col.Header}
+                    col={col}
+                    align={col.align}
+                    sortable={col.isSortable}
+                    sortDirection={col.isSorted && (col.isSortedDesc ? "desc" : "asc")}
+                    {...col.getHeaderProps(col.isSortable ? col.getSortByToggleProps() : {})}
+                  >
+                    {col.render("Header")}
+                  </HvTableCell>
+                ))}
+              </HvTableRow>
+            </HvTableHead>
+            <HvTableBody {...getTableBodyProps()}>
+              {page.map((row) => {
+                prepareRow(row);
+                return <ExpandableRow row={row} />;
+              })}
+            </HvTableBody>
+          </HvTable>
+        </HvTableContainer>
+        <HvPagination
+          canPrevious={canPreviousPage}
+          canNext={canNextPage}
+          pages={pageOptions.length}
+          page={pageIndex}
+          pageSize={pageSize}
+          onPageChange={gotoPage}
+          onPageSizeChange={setPageSize}
+        />
+      </div>
     );
   };
 
-  return <SortableTable columns={getColumns()} data={sampleData} />;
+  return <Table data={sampleData} columns={sampleColumns} />;
+};
+
+ReactTable.parameters = {
+  docs: {
+    description: { story: "A Table using useTable to manage row selection, sorting, and ...." },
+  },
 };
 
 export const DragAndDrop = () => {
@@ -260,9 +343,7 @@ export const DragAndDrop = () => {
           <HvTableHead>
             <HvTableRow>
               {getColumns().map((el) => (
-                <HvTableCell key={el.Header} variant="head">
-                  {el.Header}
-                </HvTableCell>
+                <HvTableCell key={el.Header}>{el.Header}</HvTableCell>
               ))}
               <HvTableCell />
             </HvTableRow>
