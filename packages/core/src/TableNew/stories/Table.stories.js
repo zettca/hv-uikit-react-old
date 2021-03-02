@@ -6,17 +6,17 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Edit, Duplicate, Drag, Fail, DropDownXS, DropRightXS } from "@hv/uikit-react-icons";
 
 import {
-  HvBulkActions,
   HvButton,
   HvCheckBox,
   HvDropDownMenu,
   HvEmptyState,
-  HvPagination,
   HvTable,
   HvTableBody,
+  HvTableBulkActions,
   HvTableCell,
   HvTableContainer,
   HvTableHead,
+  HvTablePagination,
   HvTableRow,
 } from "../..";
 
@@ -237,33 +237,11 @@ export const ReactTable = () => {
       useRowSelect
     );
 
-    const {
-      getTableProps,
-      getTableBodyProps,
-      toggleAllRowsSelected,
-      toggleAllPageRowsSelected,
-      headers,
-      rows,
-      page,
-      prepareRow,
-      canPreviousPage,
-      canNextPage,
-      pageOptions,
-      gotoPage,
-      setPageSize,
-      selectedFlatRows,
-      state: { pageSize, pageIndex },
-    } = instance;
+    const { getTableProps, getTableBodyProps, headers, page, prepareRow } = instance;
 
     return (
       <div>
-        <HvBulkActions
-          numTotal={rows.length}
-          numSelected={selectedFlatRows.length}
-          showSelectAllPages
-          onSelectAll={toggleAllPageRowsSelected}
-          onSelectAllPages={toggleAllRowsSelected}
-        />
+        <HvTableBulkActions rtInstance={instance} />
         <br />
         <HvTableContainer>
           <HvTable {...getTableProps()}>
@@ -288,15 +266,7 @@ export const ReactTable = () => {
             </HvTableBody>
           </HvTable>
         </HvTableContainer>
-        <HvPagination
-          canPrevious={canPreviousPage}
-          canNext={canNextPage}
-          pages={pageOptions.length}
-          page={pageIndex}
-          pageSize={pageSize}
-          onPageChange={gotoPage}
-          onPageSizeChange={setPageSize}
-        />
+        <HvTablePagination rtInstance={instance} />
       </div>
     );
   };
