@@ -4,7 +4,7 @@ import clsx from "clsx";
 import capitalize from "lodash/capitalize";
 
 import { withStyles } from "@material-ui/core";
-import { getSortIcon, getSortDir } from "./utils";
+import { getSortIcon } from "./utils";
 import styles from "./styles";
 import TableContext from "../TableContext";
 
@@ -13,28 +13,37 @@ import TableContext from "../TableContext";
  */
 const HvTableCell = forwardRef(function HvTableCell(props, ref) {
   const {
-    align = "inherit",
     classes,
     className,
     component,
-    padding: paddingProp,
-    sortDirection,
-    variant: variantProp,
-
-    sorted,
-    sortable,
     children,
+
+    col = {}, // react-table
+
+    align: alignProp = "inherit",
+    padding: paddingProp,
+    sortDirection: sortDirectionProp,
+    variant: variantProp,
+    sorted: sortedProp,
+    sortable: sortableProp,
 
     ...others
   } = props;
 
   const tableContext = useContext(TableContext);
+  const { rtAlign, padding: rtPadding, isSortable, isSorted } = col;
 
   const isHeadCell = tableContext?.variant === "head";
   const Component = component || (isHeadCell && "th") || "td";
 
-  const padding = paddingProp || (tableContext?.padding ?? "default");
-  const variant = variantProp || tableContext?.variant;
+  // prop > RT col > context > fallback
+  const align = alignProp ?? rtAlign;
+  const padding = paddingProp ?? rtPadding ?? tableContext?.padding ?? "default";
+  const variant = variantProp ?? tableContext?.variant;
+  const sorted = sortedProp ?? isSorted;
+  const sortable = sortableProp ?? isSortable;
+  const sortDirection =
+    sortDirectionProp ?? (col.isSorted && (col.isSortedDesc ? "descending" : "ascending"));
 
   const Sort = useMemo(() => getSortIcon(sortDirection), [sortDirection]);
 
@@ -47,7 +56,7 @@ const HvTableCell = forwardRef(function HvTableCell(props, ref) {
         [classes[`align${capitalize(align)}`]]: align !== "inherit",
         [classes[`padding${capitalize(padding)}`]]: padding !== "default",
       })}
-      aria-sort={getSortDir(sortDirection)}
+      aria-sort={sortDirection}
       {...others}
     >
       {variant === "head" && sortable && <Sort className={classes.sortIcon} />}
@@ -65,6 +74,11 @@ HvTableCell.propTypes = {
    * Content to be rendered
    */
   children: PropTypes.node,
+  /**
+   * React Table column instance. Also contains other props passed as `data`
+   * https://react-table.tanstack.com/docs/api/useTable#column-options
+   */
+  col: PropTypes.instanceOf(Object),
   /**
    * Whether or not the cell is sorted
    */

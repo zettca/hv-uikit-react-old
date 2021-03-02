@@ -2,9 +2,9 @@ import { SortXS, SortAscendingXS, SortDescendingXS } from "@hv/uikit-react-icons
 
 export const getSortIcon = (dir) => {
   switch (dir) {
-    case "asc":
+    case "ascending":
       return SortAscendingXS;
-    case "desc":
+    case "descending":
       return SortDescendingXS;
     default:
       return SortXS;

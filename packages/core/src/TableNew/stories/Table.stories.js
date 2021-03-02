@@ -215,13 +215,7 @@ export const ReactTable = () => {
     <React.Fragment key={row.id}>
       <HvTableRow hover selected={row.isSelected} {...row.getRowProps()}>
         {row.cells.map((cell) => (
-          <HvTableCell
-            col={cell.column}
-            padding={cell.column.padding}
-            sortable={cell.column.isSortable}
-            sorted={cell.column.isSorted}
-            {...cell.getCellProps()}
-          >
+          <HvTableCell col={cell.column} {...cell.getCellProps()}>
             {cell.render("Cell")}
           </HvTableCell>
         ))}
@@ -279,9 +273,6 @@ export const ReactTable = () => {
                   <HvTableCell
                     key={col.Header}
                     col={col}
-                    align={col.align}
-                    sortable={col.isSortable}
-                    sortDirection={col.isSorted && (col.isSortedDesc ? "desc" : "asc")}
                     {...col.getHeaderProps(col.isSortable ? col.getSortByToggleProps() : {})}
                   >
                     {col.render("Header")}
