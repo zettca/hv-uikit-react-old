@@ -4,7 +4,7 @@ import { useTable, useRowSelect, usePagination, useResizeColumns } from "react-t
 
 import { Ban } from "@hv/uikit-react-icons";
 
-import { HvCheckBox, HvDropDownMenu, HvEmptyState, HvPagination } from "@hv/uikit-react-core";
+import { HvCheckBox, HvDropDownMenu, HvEmptyState } from "@hv/uikit-react-core";
 
 import {
   HvTable,
@@ -12,6 +12,7 @@ import {
   HvTableCell,
   HvTableContainer,
   HvTableHead,
+  HvTablePagination,
   HvTableRow,
 } from "../..";
 
@@ -214,26 +215,8 @@ export const Pagination = () => {
     []
   );
 
-  const instance = useTable(
-    { columns, data },
-    usePagination,
-    useRowSelect,
-
-    useResizeColumns
-  );
-  const {
-    getTableProps,
-    getTableBodyProps,
-    prepareRow,
-    headers,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    gotoPage,
-    setPageSize,
-    state: { pageSize, pageIndex },
-  } = instance;
+  const instance = useTable({ columns, data }, usePagination, useRowSelect, useResizeColumns);
+  const { getTableProps, getTableBodyProps, prepareRow, headers, page } = instance;
 
   return (
     <div>
@@ -269,20 +252,12 @@ export const Pagination = () => {
           </HvTableBody>
         </HvTable>
       </HvTableContainer>
-      <HvPagination
-        canPrevious={canPreviousPage}
-        canNext={canNextPage}
-        pages={pageOptions.length}
-        page={pageIndex}
-        pageSize={pageSize}
-        onPageChange={gotoPage}
-        onPageSizeChange={setPageSize}
-      />
+      <HvTablePagination rtInstance={instance} />
     </div>
   );
 };
 
-SelectableReactTable.parameters = {
+Pagination.parameters = {
   docs: {
     description: { story: "A table with pagination and row selection, managed by `react-table`." },
   },
