@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import range from "lodash/range";
-import { useTable, useRowSelect } from "react-table";
+import { useTable, useRowSelect, usePagination, useResizeColumns } from "react-table";
 
 import { Ban } from "@hv/uikit-react-icons";
 
-import { HvCheckBox, HvDropDownMenu, HvEmptyState } from "@hv/uikit-react-core";
+import { HvCheckBox, HvDropDownMenu, HvEmptyState, HvPagination } from "@hv/uikit-react-core";
 
 import {
   HvTable,
@@ -196,5 +196,94 @@ export const SelectableReactTable = () => {
 SelectableReactTable.parameters = {
   docs: {
     description: { story: "A table with checkboxes being managed by `react-table`." },
+  },
+};
+
+export const Pagination = () => {
+  const data = useMemo(() => makeData(60), []);
+  const columns = useMemo(
+    () => [
+      {
+        id: "selection",
+        padding: "checkbox",
+        width: 32,
+        Cell: ({ row }) => <HvCheckBox {...row.getToggleRowSelectedProps()} />,
+      },
+      ...getColumns(),
+    ],
+    []
+  );
+
+  const instance = useTable(
+    { columns, data },
+    usePagination,
+    useRowSelect,
+
+    useResizeColumns
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    prepareRow,
+    headers,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    gotoPage,
+    setPageSize,
+    state: { pageSize, pageIndex },
+  } = instance;
+
+  return (
+    <div>
+      <HvTableContainer>
+        <HvTable {...getTableProps()}>
+          <HvTableHead>
+            <HvTableRow>
+              {headers.map((col) => (
+                <HvTableCell
+                  key={col.Header}
+                  rtCol={col}
+                  // adds fixed column sizes
+                  {...col.getHeaderProps({ style: { width: col.width } })}
+                >
+                  {col.render("Header")}
+                </HvTableCell>
+              ))}
+            </HvTableRow>
+          </HvTableHead>
+          <HvTableBody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <HvTableRow hover key={row.Header} selected={row.isSelected} {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <HvTableCell key={cell.Header} rtCol={cell.column} {...cell.getCellProps()}>
+                      {cell.render("Cell")}
+                    </HvTableCell>
+                  ))}
+                </HvTableRow>
+              );
+            })}
+          </HvTableBody>
+        </HvTable>
+      </HvTableContainer>
+      <HvPagination
+        canPrevious={canPreviousPage}
+        canNext={canNextPage}
+        pages={pageOptions.length}
+        page={pageIndex}
+        pageSize={pageSize}
+        onPageChange={gotoPage}
+        onPageSizeChange={setPageSize}
+      />
+    </div>
+  );
+};
+
+SelectableReactTable.parameters = {
+  docs: {
+    description: { story: "A table with pagination and row selection, managed by `react-table`." },
   },
 };
