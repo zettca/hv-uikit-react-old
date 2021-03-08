@@ -14,7 +14,8 @@ const styles = (theme) => ({
     verticalAlign: "top",
     ...theme.hv.typography.highlightText,
     "&$sortable": {
-      padding: 0,
+      paddingTop: 0,
+      paddingLeft: 0,
       "&:hover": {
         backgroundColor: theme.palette.atmo3,
       },
