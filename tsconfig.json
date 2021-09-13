@@ -1,29 +1,31 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "lib": ["es6", "dom"],
+    "module": "esnext",
+    "target": "es6",
+    "lib": ["esnext", "dom"],
     "jsx": "react",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "experimentalDecorators": true,
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "noErrorTruncation": true,
     "allowJs": true,
+    "checkJs": true,
     "paths": {
       "@hv/uikit-react-core": ["./packages/core/src"],
-      "@hv/uikit-react-core/dist/*": ["./packages/core/src/*"],
-      "@hv/uikit-react-icons": ["./packages/icons/bin"],
-      "@hv/uikit-react-icons/dist/*": ["./packages/icons/bin/*"]
+      "@hv/uikit-react-lab": ["./packages/lab/src"],
+      "@hv/uikit-react-icons": ["./packages/icons/bin"]
     },
     "noUnusedLocals": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "pretty": false
   },
-  "exclude": ["**/dist/"]
+  "exclude": ["**/dist/", "**/node_modules/"],
+  "include": ["./packages/core/src/**/*.js", "./packages/lab/src/**/*.js"]
 }
