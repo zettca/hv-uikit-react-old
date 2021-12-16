@@ -128,7 +128,7 @@ export const Pagination = () => {
 
   const EmptyRow = () => (
     <HvTableRow>
-      <HvTableCell colSpan="100%" />
+      <HvTableCell colSpan={100} />
     </HvTableRow>
   );
 
@@ -297,7 +297,7 @@ export const BulkActions = () => {
   const EmptyStateRow = useCallback(
     () => (
       <HvTableRow>
-        <HvTableCell colSpan="100%" style={{ height: 96 }}>
+        <HvTableCell colSpan={100} style={{ height: 96 }}>
           <HvEmptyState message="No data to display." icon={<Ban role="presentation" />} />
         </HvTableCell>
       </HvTableRow>
@@ -482,15 +482,21 @@ export const StickyHeadersAndColumns = () => {
   );
   const data = useMemo(() => makeData(100), []);
 
-  const { getTableProps, getTableHeadProps, getTableBodyProps, prepareRow, headerGroups, rows } =
-    useHvTable(
-      {
-        columns,
-        data,
-        stickyHeader: true,
-      },
-      useHvTableSticky
-    );
+  const {
+    getTableProps,
+    getTableHeadProps,
+    getTableBodyProps,
+    prepareRow,
+    headerGroups,
+    rows,
+  } = useHvTable(
+    {
+      columns,
+      data,
+      stickyHeader: true,
+    },
+    useHvTableSticky
+  );
 
   return (
     <HvTableContainer style={{ maxHeight: 480 }}>
@@ -894,7 +900,7 @@ export const ServerSide = () => {
 
   const EmptyRow = () => (
     <HvTableRow>
-      <HvTableCell colSpan="100%" />
+      <HvTableCell colSpan={100} />
     </HvTableRow>
   );
 
@@ -1017,7 +1023,7 @@ export const KitchenSink = () => {
 
   const EmptyRow = () => (
     <HvTableRow>
-      <HvTableCell colSpan="100%" style={{ height: 100 }}>
+      <HvTableCell colSpan={100} style={{ height: 100 }}>
         <HvEmptyState message="No data to display" icon={<Ban role="presentation" />} />
       </HvTableCell>
     </HvTableRow>
